@@ -1,0 +1,61 @@
+﻿@using RentACar.ViewModels
+@model CreateReservationViewModel
+@{
+    ViewData["Title"] = "Потвърди резервация";
+    int days = (int)(Model.EndDate - Model.StartDate).TotalDays;
+    decimal total = days * (Model.Car?.PricePerDay ?? 0);
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0"><i class="bi bi-calendar-check me-2"></i>Потвърди резервация</h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Автомобил</th>
+                        <td><strong>@Model.Car?.Brand @Model.Car?.Model (@Model.Car?.Year)</strong></td>
+                    </tr>
+                    <tr>
+                        <th>Начална дата</th>
+                        <td>@Model.StartDate.ToString("dd.MM.yyyy")</td>
+                    </tr>
+                    <tr>
+                        <th>Крайна дата</th>
+                        <td>@Model.EndDate.ToString("dd.MM.yyyy")</td>
+                    </tr>
+                    <tr>
+                        <th>Брой дни</th>
+                        <td>@days</td>
+                    </tr>
+                    <tr>
+                        <th>Цена на ден</th>
+                        <td>@Model.Car?.PricePerDay лв.</td>
+                    </tr>
+                    <tr class="table-success">
+                        <th>Обща цена</th>
+                        <td><strong class="text-success fs-5">@total лв.</strong></td>
+                    </tr>
+                </table>
+
+                <div class="alert alert-info small">
+                    <i class="bi bi-info-circle me-1"></i>
+                    Резервацията ще бъде изпратена за одобрение от администратор.
+                </div>
+
+                <form asp-action="Create" method="post" class="d-flex gap-2">
+                    <input type="hidden" asp-for="CarId" />
+                    <input type="hidden" asp-for="StartDate" />
+                    <input type="hidden" asp-for="EndDate" />
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-check-lg me-1"></i>Потвърди
+                    </button>
+                    <a asp-action="Search" class="btn btn-outline-secondary">Откажи</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,89 @@
+﻿@using RentACar.Models
+@model List<Reservation>
+@{
+    ViewData["Title"] = "Управление на резервации";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-calendar-check me-2"></i>Резервации</h2>
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i>Назад
+    </a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Няма постъпили резервации.</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Потребител</th>
+                    <th>Автомобил</th>
+                    <th>Начало</th>
+                    <th>Край</th>
+                    <th>Дни</th>
+                    <th>Обща цена</th>
+                    <th>Статус</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var r in Model)
+                {
+                    int days = (int)(r.EndDate - r.StartDate).TotalDays;
+                    decimal total = days * r.Car.PricePerDay;
+                    string badge = r.Status switch
+                    {
+                        "Approved" => "success",
+                        "Rejected" => "danger",
+                        _ => "warning"
+                    };
+                    string statusText = r.Status switch
+                    {
+                        "Approved" => "Одобрена",
+                        "Rejected" => "Отхвърлена",
+                        _ => "Изчакване"
+                    };
+
+                    <tr>
+                        <td>@r.Id</td>
+                        <td>
+                            <strong>@r.User.Username</strong><br />
+                            <small class="text-muted">@r.User.FirstName @r.User.LastName</small>
+                        </td>
+                        <td>@r.Car.Brand @r.Car.Model (@r.Car.Year)</td>
+                        <td>@r.StartDate.ToString("dd.MM.yyyy")</td>
+                        <td>@r.EndDate.ToString("dd.MM.yyyy")</td>
+                        <td>@days</td>
+                        <td>@total.ToString("F2") лв.</td>
+                        <td><span class="badge bg-@badge">@statusText</span></td>
+                        <td>
+                            @if (r.Status == "Pending")
+                            {
+                                <form asp-action="ApproveReservation" asp-route-id="@r.Id" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-success" title="Одобри">
+                                        <i class="bi bi-check-lg"></i>
+                                    </button>
+                                </form>
+                                <form asp-action="RejectReservation" asp-route-id="@r.Id" method="post" class="d-inline ms-1">
+                                    <button type="submit" class="btn btn-sm btn-danger" title="Отхвърли">
+                                        <i class="bi bi-x-lg"></i>
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <span class="text-muted small">—</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

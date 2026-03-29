@@ -1,0 +1,41 @@
+﻿@using RentACar.Models
+@model Car
+@{
+    ViewData["Title"] = $"{Model.Brand} {Model.Model}";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card shadow">
+            <div class="card-header bg-dark text-white">
+                <h4 class="mb-0"><i class="bi bi-car-front-fill me-2"></i>@Model.Brand @Model.Model</h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr><th class="w-40">Марка</th><td>@Model.Brand</td></tr>
+                        <tr><th>Модел</th><td>@Model.Model</td></tr>
+                        <tr><th>Година</th><td>@Model.Year</td></tr>
+                        <tr><th>Места</th><td>@Model.Seats</td></tr>
+                        @if (!string.IsNullOrEmpty(Model.Description))
+                        {
+                            <tr><th>Описание</th><td>@Model.Description</td></tr>
+                        }
+                        <tr><th>Цена/ден</th><td><strong class="text-success">@Model.PricePerDay лв.</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer d-flex gap-2">
+                @if (Context.Session.GetInt32("UserId") != null)
+                {
+                    <a asp-controller="Reservations" asp-action="Search" class="btn btn-warning">
+                        <i class="bi bi-calendar-check me-1"></i>Резервирай
+                    </a>
+                }
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-1"></i>Назад
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
