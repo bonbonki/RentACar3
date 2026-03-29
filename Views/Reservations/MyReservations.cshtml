@@ -1,0 +1,60 @@
+﻿@using RentACar.Models
+@model List<Reservation>
+@{
+    ViewData["Title"] = "Моите резервации";
+}
+
+<h2 class="mb-4"><i class="bi bi-calendar2-week me-2"></i>Моите резервации</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle me-2"></i>
+        Нямате резервации. <a asp-action="Search">Направете резервация сега</a>.
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Автомобил</th>
+                    <th>Начало</th>
+                    <th>Край</th>
+                    <th>Дни</th>
+                    <th>Обща цена</th>
+                    <th>Статус</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var r in Model)
+                {
+                    int days = (int)(r.EndDate - r.StartDate).TotalDays;
+                    decimal total = days * r.Car.PricePerDay;
+                    string badge = r.Status switch
+                    {
+                        "Approved" => "success",
+                        "Rejected" => "danger",
+                        _ => "warning"
+                    };
+                    string statusText = r.Status switch
+                    {
+                        "Approved" => "Одобрена",
+                        "Rejected" => "Отхвърлена",
+                        _ => "Изчакване"
+                    };
+
+                    <tr>
+                        <td><strong>@r.Car.Brand @r.Car.Model</strong> (@r.Car.Year)</td>
+                        <td>@r.StartDate.ToString("dd.MM.yyyy")</td>
+                        <td>@r.EndDate.ToString("dd.MM.yyyy")</td>
+                        <td>@days</td>
+                        <td>@total.ToString("F2") лв.</td>
+                        <td><span class="badge bg-@badge">@statusText</span></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

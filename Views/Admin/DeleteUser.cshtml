@@ -1,0 +1,33 @@
+﻿@using RentACar.Models
+@model User
+@{
+    ViewData["Title"] = "Изтрий потребител";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow border-danger">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0"><i class="bi bi-person-x me-2"></i>Изтрий потребител</h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    Сигурни ли сте, че искате да изтриете следния потребител?
+                </div>
+                <table class="table table-bordered">
+                    <tr><th>Потребителско име</th><td>@Model.Username</td></tr>
+                    <tr><th>Имe</th><td>@Model.FirstName @Model.LastName</td></tr>
+                    <tr><th>Имейл</th><td>@Model.Email</td></tr>
+                    <tr><th>ЕГН</th><td>@Model.Egn</td></tr>
+                </table>
+                <form asp-action="DeleteUser" asp-route-id="@Model.Id" method="post" class="d-flex gap-2">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash me-1"></i>Да, изтрий
+                    </button>
+                    <a asp-action="Users" class="btn btn-outline-secondary">Откажи</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

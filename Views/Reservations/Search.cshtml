@@ -1,0 +1,92 @@
+﻿@using RentACar.ViewModels
+@model SearchCarsViewModel
+@{
+    ViewData["Title"] = "Търси свободни автомобили";
+}
+
+<h2 class="mb-4"><i class="bi bi-search me-2"></i>Резервирай автомобил</h2>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <form asp-action="Search" method="post" class="row g-3 align-items-end">
+            <div class="col-md-4">
+                <label asp-for="StartDate" class="form-label">Начална дата</label>
+                <input asp-for="StartDate" class="form-control" type="date"
+                       min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                       value="@Model.StartDate.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="StartDate" class="text-danger small"></span>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="EndDate" class="form-label">Крайна дата</label>
+                <input asp-for="EndDate" class="form-control" type="date"
+                       min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")"
+                       value="@Model.EndDate.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="EndDate" class="text-danger small"></span>
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-dark w-100">
+                    <i class="bi bi-search me-1"></i>Търси
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model.Searched)
+{
+    <h4 class="mb-3">
+        Свободни автомобили за периода
+        <span class="text-primary">@Model.StartDate.ToString("dd.MM.yyyy")</span> —
+        <span class="text-primary">@Model.EndDate.ToString("dd.MM.yyyy")</span>
+    </h4>
+
+    @if (!Model.AvailableCars.Any())
+    {
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle me-2"></i>
+            Няма свободни автомобили за избрания период. Моля, опитайте с други дати.
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var car in Model.AvailableCars)
+            {
+                int days = (int)(Model.EndDate - Model.StartDate).TotalDays;
+                decimal total = days * car.PricePerDay;
+
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-success">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="bi bi-car-front text-success me-2"></i>@car.Brand @car.Model
+                            </h5>
+                            <ul class="list-unstyled text-muted small mb-2">
+                                <li><i class="bi bi-calendar3 me-1"></i>@car.Year г.</li>
+                                <li><i class="bi bi-people me-1"></i>@car.Seats места</li>
+                                <li><i class="bi bi-cash me-1"></i>@car.PricePerDay лв./ден</li>
+                            </ul>
+                            @if (!string.IsNullOrEmpty(car.Description))
+                            {
+                                <p class="small text-muted">@car.Description</p>
+                            }
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="small text-muted">Общо за @days дни:</span>
+                                <strong class="text-success">@total лв.</strong>
+                            </div>
+                            <a asp-controller="Reservations" asp-action="Create"
+                                   asp-route-carId="@car.Id"
+                                   asp-route-startDate="@Model.StartDate.ToString("yyyy-MM-dd")"
+                                   asp-route-endDate="@Model.EndDate.ToString("yyyy-MM-dd")"
+                                   class="btn btn-success w-100">
+                                <i class="bi bi-calendar-check me-1"></i>Резервирай
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+}

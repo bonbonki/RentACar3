@@ -1,0 +1,89 @@
+﻿@{
+    ViewData["Title"] = "Администрация";
+}
+
+<h2 class="mb-4"><i class="bi bi-gear-fill me-2"></i>Административен панел</h2>
+
+<div class="row g-4 mb-5">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary shadow">
+            <div class="card-body text-center">
+                <i class="bi bi-people-fill fs-1"></i>
+                <h3 class="mt-2">@ViewBag.UserCount</h3>
+                <p class="mb-0">Потребители</p>
+            </div>
+            <div class="card-footer text-center">
+                <a asp-action="Users" class="text-white text-decoration-none small">Управление →</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success shadow">
+            <div class="card-body text-center">
+                <i class="bi bi-car-front-fill fs-1"></i>
+                <h3 class="mt-2">@ViewBag.CarCount</h3>
+                <p class="mb-0">Автомобили</p>
+            </div>
+            <div class="card-footer text-center">
+                <a asp-controller="Cars" asp-action="Index" class="text-white text-decoration-none small">Управление →</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning shadow">
+            <div class="card-body text-center">
+                <i class="bi bi-hourglass-split fs-1"></i>
+                <h3 class="mt-2">@ViewBag.PendingCount</h3>
+                <p class="mb-0">Чакащи заявки</p>
+            </div>
+            <div class="card-footer text-center">
+                <a asp-action="Reservations" class="text-white text-decoration-none small">Прегледай →</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info shadow">
+            <div class="card-body text-center">
+                <i class="bi bi-check-circle-fill fs-1"></i>
+                <h3 class="mt-2">@ViewBag.ApprovedCount</h3>
+                <p class="mb-0">Одобрени</p>
+            </div>
+            <div class="card-footer text-center">
+                <a asp-action="Reservations" class="text-white text-decoration-none small">Прегледай →</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body text-center py-4">
+                <i class="bi bi-person-plus-fill fs-2 text-primary mb-3 d-block"></i>
+                <h5>Управление на потребители</h5>
+                <p class="text-muted small">Преглед, редакция и изтриване на потребители.</p>
+                <a asp-action="Users" class="btn btn-primary">Потребители</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body text-center py-4">
+                <i class="bi bi-car-front-fill fs-2 text-success mb-3 d-block"></i>
+                <h5>Управление на автомобили</h5>
+                <p class="text-muted small">Добавяне, редакция и изтриване на коли.</p>
+                <a asp-controller="Cars" asp-action="Create" class="btn btn-success">Добави кола</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body text-center py-4">
+                <i class="bi bi-calendar-check-fill fs-2 text-warning mb-3 d-block"></i>
+                <h5>Управление на резервации</h5>
+                <p class="text-muted small">Преглед и одобряване на заявки.</p>
+                <a asp-action="Reservations" class="btn btn-warning">Резервации</a>
+            </div>
+        </div>
+    </div>
+</div>

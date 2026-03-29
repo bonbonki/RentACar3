@@ -1,0 +1,25 @@
+﻿@using RentACar.Models
+@model List<Car>
+@{
+    ViewData["Title"] = "Начало";
+}
+
+<div class="p-5 mb-4 bg-dark text-white rounded-3">
+    <div class="container-fluid py-3">
+        <h1 class="display-5 fw-bold"><i class="bi bi-car-front-fill me-3"></i>Rent a Car</h1>
+        <p class="col-md-8 fs-4">Наемете автомобил лесно и бързо. Широк избор от автомобили на достъпни цени.</p>
+        @if (Context.Session.GetInt32("UserId") != null)
+        {
+            <a class="btn btn-warning btn-lg" asp-controller="Reservations" asp-action="Search">
+                <i class="bi bi-search me-2"></i>Търси свободни коли
+            </a>
+        }
+        else
+        {
+            <a class="btn btn-warning btn-lg me-2" asp-controller="Account" asp-action="Register">
+                <i class="bi bi-person-plus me-2"></i>Регистрирай се
+            </a>
+            <a class="btn btn-outline-light btn-lg" asp-controller="Account" asp-action="Login">Вход</a>
+        }
+    </div>
+</div>
