@@ -75,10 +75,15 @@ else
                                         <i class="bi bi-x-lg"></i>
                                     </button>
                                 </form>
+                                
                             }
                             else
                             {
-                                <span class="text-muted small">—</span>
+                                <form asp-action="DeleteReservation" asp-route-id="@r.Id" method="post" class="d-inline ms-1">
+                                    <button type="submit" class="btn btn-sm btn-warning" title="Изтрий">
+                                        <i class="bi bi-x-lg"></i>
+                                    </button>
+                                </form>
                             }
                         </td>
                     </tr>

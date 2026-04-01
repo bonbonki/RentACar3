@@ -149,4 +149,13 @@ public class AdminController : Controller
         if (r != null) { r.Status = "Rejected"; await _db.SaveChangesAsync(); }
         return RedirectToAction("Reservations");
     }
+    
+    [HttpPost]
+    public async Task<IActionResult> DeleteReservation(int id)
+    {
+        if (!IsAdmin) return RedirectToAction("Login", "Account");
+        var r = await _db.Reservations.FindAsync(id);
+        if (r != null) { _db.Reservations.Remove(r); await _db.SaveChangesAsync(); }
+        return RedirectToAction("Reservations");
+    }
 }
