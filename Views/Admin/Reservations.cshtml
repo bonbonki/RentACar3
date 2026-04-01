@@ -60,28 +60,28 @@ else
                         <td>@r.StartDate.ToString("dd.MM.yyyy")</td>
                         <td>@r.EndDate.ToString("dd.MM.yyyy")</td>
                         <td>@days</td>
-                        <td>@total.ToString("F2") лв.</td>
+                        <td>@total.ToString("F2") €</td>
                         <td><span class="badge bg-@badge">@statusText</span></td>
                         <td>
                             @if (r.Status == "Pending")
                             {
                                 <form asp-action="ApproveReservation" asp-route-id="@r.Id" method="post" class="d-inline">
                                     <button type="submit" class="btn btn-sm btn-success" title="Одобри">
-                                        <i class="bi bi-check-lg"></i>
+                                        <i class="bi bi-check-lg me-1"></i> Одобри
                                     </button>
                                 </form>
                                 <form asp-action="RejectReservation" asp-route-id="@r.Id" method="post" class="d-inline ms-1">
                                     <button type="submit" class="btn btn-sm btn-danger" title="Отхвърли">
-                                        <i class="bi bi-x-lg"></i>
+                                        <i class="bi bi-x-lg me-1"></i> Отхвърли
                                     </button>
                                 </form>
                                 
                             }
                             else
                             {
-                                <form asp-action="DeleteReservation" asp-route-id="@r.Id" method="post" class="d-inline ms-1">
+                                <form asp-action="DeleteReservation" asp-route-id="@r.Id" method="post" class="d-inline ms-1" onsubmit="return confirm('Сигурни ли сте, че искате да изтриете тази резервация?');">
                                     <button type="submit" class="btn btn-sm btn-warning" title="Изтрий">
-                                        <i class="bi bi-x-lg"></i>
+                                        <i class="bi bi-x-lg me-1"></i> Изтрий
                                     </button>
                                 </form>
                             }

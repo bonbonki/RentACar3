@@ -64,7 +64,7 @@
                             <ul class="list-unstyled text-muted small mb-2">
                                 <li><i class="bi bi-calendar3 me-1"></i>@car.Year г.</li>
                                 <li><i class="bi bi-people me-1"></i>@car.Seats места</li>
-                                <li><i class="bi bi-cash me-1"></i>@car.PricePerDay лв./ден</li>
+                                <li><i class="bi bi-cash me-1"></i>@car.PricePerDay €/ден</li>
                             </ul>
                             @if (!string.IsNullOrEmpty(car.Description))
                             {
@@ -74,7 +74,7 @@
                         <div class="card-footer">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <span class="small text-muted">Общо за @days дни:</span>
-                                <strong class="text-success">@total лв.</strong>
+                                <strong class="text-success">@total €</strong>
                             </div>
                             <a asp-controller="Reservations" asp-action="Create"
                                    asp-route-carId="@car.Id"
