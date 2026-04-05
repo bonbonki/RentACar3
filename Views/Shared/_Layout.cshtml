@@ -28,9 +28,12 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="Search">Търси Кола</a>
                         </li>
                         
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="MyReservations">Вашите Резервации</a>
-                        </li>
+                        @if (ViewContext.HttpContext.Session.GetInt32("UserId") != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Reservations" asp-action="MyReservations">Вашите Резервации</a>
+                            </li>
+                        }
         
                         @if (ViewContext.HttpContext.Session.GetString("Role") == "Admin")
                         {
@@ -46,14 +49,26 @@
                     </ul>
 
                     <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" href="@Url.Action("Logout", "Account")">Излез</a>
-                        </li>
-                        <li class="nav-item d-flex align-items-center">
-                            <span class="navbar-text text-muted ps-3">
-                                @ViewContext.HttpContext.Session.GetString("Username")
-                            </span>
-                        </li>
+                        @if (ViewContext.HttpContext.Session.GetInt32("UserId") != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="@Url.Action("Logout", "Account")">Излез</a>
+                            </li>
+                            <li class="nav-item d-flex align-items-center">
+                                <span class="navbar-text text-muted ps-3">
+                                    @ViewContext.HttpContext.Session.GetString("Username")
+                                </span>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Вход</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Регистрация</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
